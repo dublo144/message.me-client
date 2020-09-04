@@ -34,7 +34,7 @@ const ChannelView = () => {
   const { selectedChannel, subscribeToMore, loading } = useChannelState();
   const dispatch = useChannelDispatch();
   const userId = useAuthState();
-  const isAdmin = selectedChannel.admins.filter((a) => a.id === userId);
+  const isAdmin = selectedChannel?.admins.filter((a) => a.id === userId);
 
   React.useEffect(() => {
     subscribeToMore({
