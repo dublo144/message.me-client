@@ -34,3 +34,5 @@ coverage/
 cypress.env.json
 nodemon.json
 node_modules
+# Local Netlify folder
+.netlify

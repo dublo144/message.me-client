@@ -13,7 +13,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import App from './App';
 import 'antd/dist/antd.css';
-import { backendUrl } from './config/settings';
+import { backendUrl, wsUrl } from './config/settings';
 import { AuthProvider } from './contexts/AuthContext';
 import './index.less';
 
@@ -34,7 +34,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
+  uri: wsUrl,
   options: {
     reconnect: true, // Set to true
     connectionParams: {

@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel public/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "parcel public/index.html",
+    "start": "./node_modules/parcel-bundler/bin/cli.js public/index.html",
+    "build": "parcel build public/index.html",
+    "heroku-postbuild": "parcel build public/index.html"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +23,8 @@
     "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
-    "less": "^3.12.2"
+    "less": "^3.12.2",
+    "parcel-bundler": "^1.12.4"
   },
   "browserslist": [
     "last 1 Chrome versions"
