@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip, Button, Input, Form, Modal } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import UserAutoSearch from '../helpers/UserAutoSearch';
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { queries } from '../../helpers/graphqlQueries';
 import { useChannelDispatch } from '../../contexts/ChannelContext';
 
@@ -45,9 +45,10 @@ const NewChannelModal = () => {
     <>
       <Tooltip title={'New channel'} placement={'right'}>
         <Button
-          icon={<PlusCircleOutlined />}
-          style={{ width: '100%' }}
-          type={'dashed'}
+          icon={<PlusOutlined />}
+          size={'small'}
+          shape={'circle'}
+          type={'default'}
           onClick={() => setVisible(true)}
         />
       </Tooltip>

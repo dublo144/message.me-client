@@ -1,85 +1,50 @@
 import React from 'react';
-import { Layout, Menu, Button, Tooltip } from 'antd';
+import { Layout, Menu, Button, Tooltip, Divider, Space, Row, Col } from 'antd';
 import {
   CommentOutlined,
   MessageOutlined,
   NumberOutlined,
-  PlusCircleOutlined
+  PlusCircleOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { queries } from '../../../helpers/graphqlQueries';
-import {
-  useChannelDispatch,
-  useChannelState
-} from '../../../contexts/ChannelContext';
+import { useChannelDispatch } from '../../../contexts/ChannelContext';
 import NewChannelModal from '../../channel/NewChannelModal';
+import Avatar from 'antd/lib/avatar/avatar';
 
 const { Sider } = Layout;
 
 const SideBar = () => {
   const dispatch = useChannelDispatch();
-  const { channels, conversations } = useChannelState();
 
-  const { loading: userDataLoading } = useQuery(queries.USER_DATA, {
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      dispatch({
-        type: 'GET_USER_DATA_SUCCESS',
-        payload: {
-          channels: data.userData.channels,
-          conversations: data.userData.conversations
-        }
-      });
-    },
-    onError: (error) =>
-      dispatch({
-        type: 'GET_USER_DATA_ERROR',
-        payload: {
-          error
-        }
-      })
-  });
-
-  const [
-    channelDetails,
-    { loading: channelLoading, subscribeToMore }
-  ] = useLazyQuery(queries.CHANNEL_DETAILS, {
-    fetchPolicy: 'network-only',
-    onCompleted: (data) =>
-      dispatch({
-        type: 'SELECT_CHANNEL_SUCCESS',
-        payload: {
-          selectedChannel: data.channelDetails,
-          subscribeToMore
-        }
-      }),
-    onError: (error) =>
-      dispatch({
-        type: 'SELECT_CHANNEL_ERROR',
-        payload: {
-          error
-        }
-      })
-  });
-
-  const [conversationDetails, { loading: conversationLoading }] = useLazyQuery(
-    queries.CONVERSATION_DETAILS,
+  const [channels, { loading: channelsLoading }] = useLazyQuery(
+    queries.CHANNELS,
     {
       fetchPolicy: 'network-only',
-      onCompleted: (data) =>
+      onCompleted: (data) => {
         dispatch({
-          type: 'SELECT_CONVERSATION_SUCCESS',
+          type: 'GET_CHANNELS_SUCCESS',
           payload: {
-            selectedChannel: data.conversationDetails
+            channels: data.channels
           }
-        }),
-      onError: (error) =>
+        });
+      }
+    }
+  );
+
+  const [conversations, { loading: conversationsLoading }] = useLazyQuery(
+    queries.CONVERSATIONS,
+    {
+      fetchPolicy: 'network-only',
+      onCompleted: (data) => {
         dispatch({
-          type: 'SELECT_CHANNEL_ERROR',
+          type: 'GET_CONVERSATIONS_SUCCESS',
           payload: {
-            error
+            conversations: data.conversations
           }
-        })
+        });
+      }
     }
   );
 
@@ -87,10 +52,10 @@ const SideBar = () => {
     dispatch({
       type: 'SET_LOADING',
       payload: {
-        loading: userDataLoading || channelLoading || conversationLoading
+        loading: channelsLoading || conversationsLoading
       }
     });
-  }, [userDataLoading, channelLoading, conversationLoading]);
+  }, [channelsLoading, conversationsLoading]);
 
   return (
     <Sider
@@ -101,64 +66,52 @@ const SideBar = () => {
         left: 0
       }}
     >
+      <Row
+        justify={'center'}
+        style={{
+          marginTop: '15vh'
+        }}
+      >
+        <Col span={6}>
+          <Avatar size={64} icon={<UserOutlined />} />
+        </Col>
+        <Col span={24}>Some@email.com</Col>
+      </Row>
+
       <Menu
         mode={'inline'}
         theme={'light'}
-        defaultOpenKeys={['channels', 'privateConversations']}
         style={{
-          paddingLeft: 15,
-          paddingTop: '15vh',
-          height: '100%',
-          borderRight: 0
+          height: '100%'
         }}
       >
-        <Menu.SubMenu
+        <Menu.Item
           key='channels'
           icon={<CommentOutlined />}
-          title='My Channels'
+          onClick={() => {
+            channels();
+            dispatch({
+              type: 'SET_TYPE',
+              payload: { selectedType: 'channels' }
+            });
+          }}
         >
-          {channels.map((channel) => (
-            <Menu.Item
-              key={channel.id}
-              onClick={() => {
-                channelDetails({ variables: { input: channel.id } });
-              }}
-              icon={<NumberOutlined />}
-            >
-              {channel.name}
-            </Menu.Item>
-          ))}
-          <Menu.Item>
-            <NewChannelModal />
-          </Menu.Item>
-        </Menu.SubMenu>
+          Channels
+        </Menu.Item>
 
-        <Menu.SubMenu
+        <Menu.Item
           key='privateConversations'
           icon={<MessageOutlined />}
-          title='Private Conversations'
+          onClick={() => {
+            conversations();
+            dispatch({
+              type: 'SET_TYPE',
+              payload: { selectedType: 'conversations' }
+            });
+          }}
         >
-          {conversations?.map((conversation) => (
-            <Menu.Item
-              key={conversation.id}
-              icon={<MessageOutlined />}
-              onClick={() => {
-                conversationDetails({ variables: { input: conversation.id } });
-              }}
-            >
-              {conversation.name}
-            </Menu.Item>
-          ))}
-          <Menu.Item>
-            <Tooltip title={'New private conversation'} placement={'right'}>
-              <Button
-                icon={<PlusCircleOutlined />}
-                style={{ width: '100%' }}
-                type={'dashed'}
-              />
-            </Tooltip>
-          </Menu.Item>
-        </Menu.SubMenu>
+          Conversations
+        </Menu.Item>
       </Menu>
     </Sider>
   );

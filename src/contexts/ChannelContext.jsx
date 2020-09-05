@@ -4,10 +4,12 @@ const ChannelStateContext = React.createContext();
 const ChannelDispatchContext = React.createContext();
 
 const initialState = {
+  selectedType: null,
   channels: [],
   selectedChannel: null,
   subscribeToMore: null,
   conversations: [],
+  selectedConversation: null,
   loading: false,
   error: null
 };
@@ -20,17 +22,16 @@ const reducer = (state, action) => {
         loading: action.payload.loading
       };
     }
-    case 'GET_USER_DATA_SUCCESS': {
+    case 'GET_CHANNELS_SUCCESS': {
       return {
         ...state,
-        channels: action.payload.channels,
-        conversations: action.payload.conversations
+        channels: action.payload.channels
       };
     }
-    case 'GET_USER_DATA_ERROR': {
+    case 'SET_TYPE': {
       return {
         ...state,
-        error: action.payload.error
+        selectedType: action.payload.selectedType || null
       };
     }
     case 'SELECT_CHANNEL_SUCCESS': {
@@ -59,6 +60,18 @@ const reducer = (state, action) => {
           (c) => c.id !== action.payload.channelId
         ),
         selectedChannel: undefined
+      };
+    }
+    case 'GET_CONVERSATIONS_SUCCESS': {
+      return {
+        ...state,
+        conversations: action.payload.conversations
+      };
+    }
+    case 'GET_CONVERSATIONS_ERROR': {
+      return {
+        ...state,
+        error: action.payload.error
       };
     }
     case 'SELECT_CONVERSATION_SUCCESS': {

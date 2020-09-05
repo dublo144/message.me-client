@@ -18,21 +18,6 @@ const SIGN_UP = gql`
   }
 `;
 
-const USER_DATA = gql`
-  query {
-    userData {
-      channels {
-        id
-        name
-      }
-      conversations {
-        id
-        name
-      }
-    }
-  }
-`;
-
 const CHANNEL_DETAILS = gql`
   query ChannelDetails($input: String!) {
     channelDetails(channelId: $input) {
@@ -150,7 +135,6 @@ const USER_SEARCH = gql`
 export const queries = {
   SIGN_IN,
   SIGN_UP,
-  USER_DATA,
   CHANNEL_DETAILS,
   CHANNELS,
   CREATE_CHANNEL,
