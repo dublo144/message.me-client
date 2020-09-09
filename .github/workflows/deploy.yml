@@ -1,13 +1,22 @@
-name: Build and Deploy to Netlify
+name: CI
+
 on:
   push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
-  build:
-    runs-on: ubuntu-18.04
+  # This job will:
+  #   * deploy a draft every time there is a pull request created or synchronized that is not on master branch
+  #   * comment on that pull request with the deploy URL
+  deployPRDraft:
+    name: Deploy draft to Netlify
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.ref != 'refs/heads/master'
     steps:
+      - name: Checkout repository
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -15,12 +24,39 @@ jobs:
       - run: npm ci
       # - run: npm test
       - run: npm run build
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.1.10
+
+      - name: Deploy draft to Netlify
+        uses: South-Paw/action-netlify-deploy@v1.0.4
         with:
-          publish-dir: './build'
-          production-branch: master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+          build-dir: './build'
+          draft: true
+          comment-on-pull-request: true
+
+  # This job will:
+  #   * deploy a production build every time there is a push on the master branch
+  #   * comment that commit with the deploy URL
+  publishMasterCommit:
+    name: Publish to Netlify
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      # - run: npm test
+      - run: npm run build
+
+      - name: Deploy production to Netlify
+        uses: South-Paw/action-netlify-deploy@v1.0.4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+          build-dir: './build'
+          comment-on-commit: true
