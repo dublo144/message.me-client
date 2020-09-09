@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "parcel public/index.html",
     "start": "./node_modules/parcel-bundler/bin/cli.js public/index.html",
-    "build": "parcel build public/index.html --out-dir build",
+    "build": "parcel build public/index.html --out-dir ./build",
     "heroku-postbuild": "parcel build public/index.html"
   },
   "keywords": [],
