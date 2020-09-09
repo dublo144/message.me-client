@@ -9,8 +9,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-
-      # ( Build to ./dist or other directory... )
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      # - run: npm test
+      - run: npm run build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
         with:
