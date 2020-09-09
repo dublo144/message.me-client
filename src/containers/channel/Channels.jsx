@@ -9,35 +9,24 @@ import { useChannelState } from '../../contexts/ChannelContext';
 import { MessageOutlined } from '@ant-design/icons';
 
 const Channels = () => {
-  const { selectedChannel } = useChannelState();
+  const { selectedType } = useChannelState();
   return (
     <Layout
       style={{
         minHeight: '100%'
       }}
     >
-      <AppHeader />
+      {/* <AppHeader /> */}
       <Layout>
         <SideBar />
         <Layout
           style={{
-            marginTop: 64,
-            minHeight: '90vh',
-            padding: '24px 0px',
+            minHeight: '100vh',
             marginLeft: '15vw'
           }}
         >
-          <Layout.Content
-            style={{
-              borderRadius: 10,
-              overflowY: 'auto',
-              backgroundColor: 'white',
-              maxHeight: '70vh',
-              marginLeft: 24,
-              padding: 24
-            }}
-          >
-            {selectedChannel ? (
+          <Layout.Content>
+            {selectedType ? (
               <ChannelView />
             ) : (
               <Result
@@ -46,20 +35,6 @@ const Channels = () => {
               />
             )}
           </Layout.Content>
-          {selectedChannel && (
-            <Layout.Footer
-              style={{
-                height: '20vh',
-                position: 'fixed',
-                bottom: 0,
-                right: 0,
-                width: '85%',
-                padding: 24
-              }}
-            >
-              <Editor />
-            </Layout.Footer>
-          )}
         </Layout>
       </Layout>
     </Layout>
