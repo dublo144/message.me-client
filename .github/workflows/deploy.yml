@@ -17,10 +17,11 @@ jobs:
     if: github.event_name == 'pull_request' && github.ref != 'refs/heads/master'
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 122
       - run: npm ci
       # - run: npm test
       - run: npm run build
@@ -44,8 +45,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
         with:
           node-version: 12
       - run: npm ci
