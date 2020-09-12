@@ -1,17 +1,11 @@
 import React from 'react';
-import { Layout, Menu, Button, Tooltip, Divider, Space, Row, Col } from 'antd';
-import {
-  CommentOutlined,
-  MessageOutlined,
-  NumberOutlined,
-  PlusCircleOutlined,
-  UserOutlined
-} from '@ant-design/icons';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { Layout, Menu } from 'antd';
+import { CommentOutlined, MessageOutlined } from '@ant-design/icons';
+import { useLazyQuery } from '@apollo/client';
 import { queries } from '../../../helpers/graphqlQueries';
 import { useChannelDispatch } from '../../../contexts/ChannelContext';
-import NewChannelModal from '../../channel/NewChannelModal';
-import Avatar from 'antd/lib/avatar/avatar';
+import UserInformation from './UserInformation';
+import './sidebar.less';
 
 const { Sider } = Layout;
 
@@ -58,33 +52,9 @@ const SideBar = () => {
   }, [channelsLoading, conversationsLoading]);
 
   return (
-    <Sider
-      width={'15vw'}
-      style={{
-        height: '100vh',
-        position: 'fixed',
-        left: 0
-      }}
-    >
-      <Row
-        justify={'center'}
-        style={{
-          marginTop: '15vh'
-        }}
-      >
-        <Col span={6}>
-          <Avatar size={64} icon={<UserOutlined />} />
-        </Col>
-        <Col span={24}>Some@email.com</Col>
-      </Row>
-
-      <Menu
-        mode={'inline'}
-        theme={'light'}
-        style={{
-          height: '100%'
-        }}
-      >
+    <Sider width={'20vw'} className={'side-bar'}>
+      <UserInformation />
+      <Menu mode={'inline'} className={'side-bar-menu'} theme={'dark'}>
         <Menu.Item
           key='channels'
           icon={<CommentOutlined />}

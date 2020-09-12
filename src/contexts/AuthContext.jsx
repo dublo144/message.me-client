@@ -8,6 +8,9 @@ const initialState = {
   jwtToken: '',
   userId: '',
   username: '',
+  firstname: '',
+  lastname: '',
+  email: '',
   isLoggedIn: false,
   error: null
 };
@@ -30,11 +33,14 @@ const init = (initialState) => {
   const token = localStorage.getItem('jwtToken');
 
   if (token) {
-    const { userId, username } = getUserinfo(token);
+    const { userId, username, firstname, lastname, email } = getUserinfo(token);
     return {
       ...initialState,
       jwtToken: token,
       userId: userId,
+      firstname,
+      lastname,
+      email,
       username: username,
       isLoggedIn: true
     };
@@ -49,6 +55,8 @@ const signIn = (state, action) => {
     ...state,
     userId: action.payload.userId,
     username: action.payload.username,
+    firstname: action.payload.firstname,
+    lastname: action.payload.lastname,
     jwtToken: action.payload.token,
     isLoggedIn: true
   };

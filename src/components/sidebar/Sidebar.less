@@ -1,0 +1,56 @@
+@import '../../index.less';
+
+@border-color: #49274b;
+
+.sidebar {
+  color: #fff !important;
+  flex: 0.3;
+  background-color: @menu-color;
+  border-top: 1px solid @border-color;
+  max-width: 260px;
+}
+
+.sidebar__header {
+  display: flex;
+  border-bottom: 1px solid @border-color;
+  padding-bottom: 10px;
+  padding: 13px;
+  > .MuiSvgIcon-root {
+    padding: 8px;
+    color: @border-color;
+    font-size: 30px;
+    background-color: #fff;
+    border-radius: 999px;
+  }
+  > .sidebar__info {
+    h2 {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.sidebar__info {
+  flex: 1;
+  h3 {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 900;
+    > .MuiSvgIcon-root {
+      margin-top: 1px;
+      margin-right: 2px;
+      font-size: 14px;
+      color: green;
+    }
+  }
+}
+
+.sidebar > hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid @border-color;
+}

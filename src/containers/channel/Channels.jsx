@@ -21,8 +21,7 @@ const Channels = () => {
         <SideBar />
         <Layout
           style={{
-            minHeight: '100vh',
-            marginLeft: '15vw'
+            minHeight: '100vh'
           }}
         >
           <Layout.Content>

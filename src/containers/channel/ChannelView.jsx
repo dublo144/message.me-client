@@ -14,8 +14,9 @@ import { useLazyQuery } from '@apollo/client';
 import MessageView from './MessageView';
 import Avatar from 'antd/lib/avatar/avatar';
 import NewChannelModal from '../../components/channel/NewChannelModal';
+import Editor from '../../components/channel/Editor';
 
-const { Content, Sider } = Layout;
+const { Content, Sider, Footer } = Layout;
 const { Title } = Typography;
 
 const ChannelView = () => {
@@ -27,7 +28,6 @@ const ChannelView = () => {
     loading
   } = useChannelState();
   const dispatch = useChannelDispatch();
-  const userId = useAuthState();
 
   const handleSelectedTypes = () => {
     if (selectedType === 'channels') return channels;
@@ -108,7 +108,7 @@ const ChannelView = () => {
             style={{
               height: '100vh',
               position: 'fixed',
-              left: '15vw',
+              left: '20vw',
               borderRight: 2
             }}
           >
@@ -147,29 +147,35 @@ const ChannelView = () => {
               ))}
             </Menu>
           </Sider>
+
           <Content
             style={{
               backgroundColor: 'white',
               padding: '24px 48px',
-              minHeight: '100vh'
+              marginLeft: 'auto',
+              maxHeight: '85vh'
             }}
           >
             {selectedChannel && <MessageView />}
           </Content>
         </Layout>
       </Content>
-      {/* <Footer
+
+      {selectedChannel && (
+        <Footer
           style={{
-            height: '20vh',
+            height: '15vh',
             position: 'fixed',
+            left: '35vw',
             bottom: 0,
             right: 0,
-            width: '85%',
+            width: '70%',
             padding: 24
           }}
         >
           <Editor />
-        </Footer> */}
+        </Footer>
+      )}
     </Layout>
   );
 };

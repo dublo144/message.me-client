@@ -8,7 +8,8 @@ import {
   List,
   Divider,
   message,
-  Modal
+  Modal,
+  Row
 } from 'antd';
 import moment from 'moment';
 import { UserAddOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -69,6 +70,7 @@ const MessageView = () => {
   return (
     <>
       <PageHeader
+        className='message-view-header'
         title={`# ${selectedChannel.name}`}
         subTitle={selectedChannel.description}
         avatar={{ src: `${selectedChannel.avatar}` }}
@@ -89,7 +91,7 @@ const MessageView = () => {
         ]}
       />
       <List
-        className='comment-list'
+        className={'message-list'}
         itemLayout='horizontal'
         dataSource={selectedChannel.messages}
         renderItem={(item) => (

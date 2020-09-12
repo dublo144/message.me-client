@@ -34,7 +34,7 @@ const Editor = () => {
         <Form.Item extra='Enter to send message. Shift + Enter for new line.'>
           <Input.TextArea
             placeholder={`message ${name}...`}
-            autoSize={{ minRows: 4, maxRows: 8 }}
+            autoSize={{ minRows: 2, maxRows: 8 }}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             onKeyPress={handleKeyPress}

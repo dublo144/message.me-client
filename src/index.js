@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -36,7 +36,7 @@ const authLink = setContext((_, { headers }) => {
 const wsLink = new WebSocketLink({
   uri: wsUrl,
   options: {
-    reconnect: true, // Set to true
+    reconnect: true,
     connectionParams: {
       Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
     }
@@ -63,11 +63,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <HashRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </HashRouter>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );

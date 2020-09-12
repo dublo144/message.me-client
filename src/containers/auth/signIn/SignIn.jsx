@@ -70,7 +70,7 @@ const SignIn = () => {
             htmlType='submit'
             className='signin-form-button'
           >
-            Sign In!
+            Sign In
           </Button>
         </Form.Item>
         <span>
