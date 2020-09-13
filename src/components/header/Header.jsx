@@ -7,7 +7,6 @@ const Header = () => {
   return (
     <div className={'header'}>
       <div className='header__left'>
-        <Avatar className={'header__avatar'} alt={'Mads'} src={''} />
         <AccessTime />
       </div>
       <div className='div header__search'>

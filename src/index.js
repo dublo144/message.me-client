@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -12,7 +11,6 @@ import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import App from './App';
-import 'antd/dist/antd.css';
 import { backendUrl, wsUrl } from './config/settings';
 import { AuthProvider } from './contexts/AuthContext';
 import './index.less';

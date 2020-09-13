@@ -1,5 +1,5 @@
 import React from 'react';
-import { Create, FiberManualRecord, InsertComment } from '@material-ui/icons';
+import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { useQuery } from '@apollo/client';
 import {
   useChannelDispatch,
@@ -9,10 +9,14 @@ import { queries } from '../../helpers/graphqlQueries';
 import SidebarOption from './SidebarOption';
 
 import './Sidebar.less';
+import { useAuthState } from '../../contexts/AuthContext';
+import { Avatar } from '@material-ui/core';
+import StyledBadge from '../user/styledBadge/StyledBadge';
 
 const Sidebar = () => {
   const dispatch = useChannelDispatch();
   const { channels, loading } = useChannelState();
+  const { username, email } = useAuthState();
 
   const { loading: channelsLoading } = useQuery(queries.CHANNELS, {
     onCompleted: (data) => {
@@ -43,23 +47,33 @@ const Sidebar = () => {
 
   return (
     <div className={'sidebar'}>
+      <div className='sidebar__userActions'>
+        <AccountCircle />
+        <ExitToApp />
+      </div>
       <div className={'sidebar__header'}>
-        <div className={'sidebar__info'}>
-          <h2>Clever programmer</h2>
-          <h3>
-            <FiberManualRecord />
-            Mads Brandt
-          </h3>
+        <div className={'sidebar__userInfo'}>
+          <StyledBadge
+            overlap='circle'
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            variant='dot'
+          >
+            <Avatar
+              className={'sidebar__avatar'}
+              alt={username}
+              src='https://api.adorable.io/avatars/217/dublo@dublo.png'
+            />
+          </StyledBadge>
+          <h2>{username}</h2>
+          <h3>{email}</h3>
         </div>
-        <Create />
       </div>
       {channels.map((channel) => (
         <SidebarOption key={channel.id} id={channel.id} title={channel.name} />
       ))}
-      <SidebarOption Icon={InsertComment} title={'Threads'} />
-      <SidebarOption title={'Channel'} />
-      <SidebarOption Icon={InsertComment} title={'Threads'} />
-      <SidebarOption title={'Channel'} />
     </div>
   );
 };
