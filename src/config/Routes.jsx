@@ -8,7 +8,7 @@ import {
 import { useAuthState } from '../contexts/AuthContext';
 import { ChannelProvider } from '../contexts/ChannelContext';
 import Header from '../components/header/Header';
-import Channel from '../containers/channelAlt/Channel';
+import Channel from '../containers/channel/Channel';
 import Sidebar from '../components/sidebar/Sidebar';
 import LogIn from '../containers/auth/login/LogIn';
 import ProtectedRoute from '../components/routes/ProtectedRoute';
