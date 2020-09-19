@@ -13,7 +13,7 @@ const Message = ({ message }) => {
         <h4>
           <strong>{message.user.username} </strong>
           <span className={'message__timestamp'}>
-            {moment().fromNow(new Date(message.date))}
+            {moment(new Date(message.date)).fromNow()}
           </span>
         </h4>
         <p>{message.content}</p>

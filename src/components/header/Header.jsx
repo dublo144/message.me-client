@@ -1,6 +1,5 @@
 import React from 'react';
 import './Header.less';
-import { Avatar } from '@material-ui/core';
 import { AccessTime, HelpOutline, Search } from '@material-ui/icons';
 
 const Header = () => {

@@ -5,6 +5,9 @@ const SIGN_IN = gql`
     signIn(email: $email, password: $password) {
       userId
       username
+      firstName
+      lastName
+      email
       token
     }
   }

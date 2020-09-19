@@ -1,7 +1,9 @@
+import { useLazyQuery } from '@apollo/client';
 import {
   Avatar,
   Button,
   Checkbox,
+  CircularProgress,
   Container,
   CssBaseline,
   FormControlLabel,
@@ -13,21 +15,55 @@ import {
 } from '@material-ui/core';
 import { AccountCircle, LockOutlined } from '@material-ui/icons';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useAuthDispatch } from '../../../contexts/AuthContext';
+import { queries } from '../../../helpers/graphqlQueries';
 import './LogIn.less';
 
 const LogIn = () => {
+  const dispatch = useAuthDispatch();
+  const [values, setValues] = React.useState({});
+
+  const [signIn, { loading: queryLoading, error: queryError }] = useLazyQuery(
+    queries.SIGN_IN,
+    {
+      fetchPolicy: 'network-only',
+      onCompleted: (data) => {
+        dispatch({
+          type: 'SIGN_IN',
+          payload: {
+            ...data.signIn
+          }
+        });
+        return <Redirect to='/' />;
+      }
+    }
+  );
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signIn({ variables: { email: values.email, password: values.password } });
+  };
+
   return (
     <div className={'login'}>
       <Container component='main' maxWidth='sm'>
         <CssBaseline />
         <div className={'login__container'}>
-          <img
-            src='https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd-650-80.jpg.webp'
-            alt=''
-          />
+          {queryLoading ? (
+            <CircularProgress />
+          ) : (
+            <img
+              src='https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd-650-80.jpg.webp'
+              alt=''
+            />
+          )}
           <Typography variant='h5'>Sign in</Typography>
-          <form noValidate>
+          <form noValidate onSubmit={handleSubmit}>
             <TextField
               variant='outlined'
               margin='normal'
@@ -45,6 +81,7 @@ const LogIn = () => {
                   </InputAdornment>
                 )
               }}
+              onChange={handleChange}
             />
             <TextField
               variant='outlined'
@@ -63,6 +100,7 @@ const LogIn = () => {
                   </InputAdornment>
                 )
               }}
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
@@ -74,17 +112,18 @@ const LogIn = () => {
               fullWidth
               variant='contained'
               color='primary'
+              disabled={queryLoading}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href='#' variant='body2'>
+                <Link to='#' variant='body2'>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href='#' variant='body2'>
+                <Link to='/signUp' variant='body2'>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

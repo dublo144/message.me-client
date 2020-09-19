@@ -17,8 +17,8 @@ export const getUserinfo = (token) => {
   return {
     userId: jwtTokenParsed.userId,
     username: jwtTokenParsed.username,
-    firstname: jwtTokenParsed.firstName,
-    lastname: jwtTokenParsed.lastName,
+    firstName: jwtTokenParsed.firstName,
+    lastName: jwtTokenParsed.lastName,
     email: jwtTokenParsed.email
   };
 };
