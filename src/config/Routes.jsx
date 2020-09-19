@@ -1,35 +1,44 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import ProtectedRoute from '../components/routes/ProtectedRoute';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import { useAuthState } from '../contexts/AuthContext';
-import SignIn from '../containers/auth/signIn/SignIn';
-import SignUp from '../containers/auth/signUp/SignUp';
-import Channels from '../containers/channel/Channels';
 import { ChannelProvider } from '../contexts/ChannelContext';
+import Header from '../components/header/Header';
+import Channel from '../containers/channel/Channel';
+import Sidebar from '../components/sidebar/Sidebar';
+import LogIn from '../containers/auth/login/LogIn';
+import ProtectedRoute from '../components/routes/ProtectedRoute';
 
 const Routes = () => {
   const { isLoggedIn } = useAuthState();
   return (
-    <Switch>
-      <Route exact path='/'>
-        {isLoggedIn ? (
-          <Redirect to={'/channels'} />
-        ) : (
-          <Redirect to={'/signIn'} />
-        )}
-      </Route>
-      <Route path={'/signIn'}>
-        {isLoggedIn ? <Redirect to={'/channels'} /> : <SignIn />}
-      </Route>
-      <Route path={'/signUp'}>
-        {isLoggedIn ? <Redirect to={'/channels'} /> : <SignUp />}
-      </Route>
-      <ProtectedRoute path='/channels'>
-        <ChannelProvider>
-          <Channels />
-        </ChannelProvider>
-      </ProtectedRoute>
-    </Switch>
+    <div className='app'>
+      <Router>
+        <Switch>
+          <Route path={'/login'}>
+            {isLoggedIn ? <Redirect to={'/'} /> : <LogIn />}
+            <LogIn />
+          </Route>
+          {isLoggedIn ? (
+            <ChannelProvider>
+              <Header />
+              <div className='app__body'>
+                <Sidebar />
+                <ProtectedRoute path={'/channel/:channelId'}>
+                  <Channel />
+                </ProtectedRoute>
+              </div>
+            </ChannelProvider>
+          ) : (
+            <Redirect to={'/login'} />
+          )}
+        </Switch>
+      </Router>
+    </div>
   );
 };
 

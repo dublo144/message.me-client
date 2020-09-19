@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, redirectPath = null, ...rest }) => {
         isLoggedIn ? (
           children
         ) : (
-          <Redirect to={redirectPath ? redirectPath : '/'} />
+          <Redirect to={redirectPath ? redirectPath : '/login'} />
         )
       }
     />

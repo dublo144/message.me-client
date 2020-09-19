@@ -1,0 +1,30 @@
+.message {
+  display: flex;
+  align-items: center;
+  margin: 12px 6px;
+  padding: 12px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+  }
+  &:hover {
+    background-color: aliceblue;
+  }
+  p {
+    margin-top: 2px;
+  }
+}
+
+.message__timestamp {
+  color: grey;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.message__info {
+  padding-left: 10px;
+}
