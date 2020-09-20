@@ -12,7 +12,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import App from './App';
 import { backendUrl, wsUrl } from './config/settings';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext.jsx';
 import './index.less';
 
 const httpLink = createHttpLink({
